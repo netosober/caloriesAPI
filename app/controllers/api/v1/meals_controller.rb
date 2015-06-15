@@ -1,5 +1,5 @@
 class Api::V1::MealsController < ApplicationController
-  before_action :get_meal, only: [:show, :update]
+  before_action :get_meal, only: [:show, :update, :destroy]
 
   def index
     @meals = Meal.all
@@ -13,7 +13,7 @@ class Api::V1::MealsController < ApplicationController
   def create
     @meal = Meal.new(meal_params)
     if @meal.save
-      render json: @meal, status: 200
+      render json: @meal, status: 201
     else
       render json: @meal.errors, status: 422
     end
@@ -25,6 +25,12 @@ class Api::V1::MealsController < ApplicationController
     else
       render json: @meal.errors, status: 422
     end
+  end
+
+  def destroy
+    @meal.delete
+
+    head :no_content
   end
 
   private

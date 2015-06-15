@@ -8,7 +8,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
     end
 
     it "responds with 200" do
-      expect(response).to be_success
+      expect(response.status).to be 200
     end
 
     it "get item" do
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       get :index
     end
     it "responds with 200" do
-      expect(response).to be_success
+      expect(response.status).to be 200
     end
     it "gets all items" do
       expect(json_response.count).to eq(@meals.count)
@@ -38,8 +38,8 @@ RSpec.describe Api::V1::MealsController, type: :controller do
         post :create, meal: @meal_attr
       end
 
-      it "responds with 200" do
-        expect(response).to be_success
+      it "responds with 201" do
+        expect(response.status).to be 201
       end
 
       it "creates new meal" do
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       end
 
       it "responds with 422" do
-        expect(response).not_to be_success
+        expect(response.status).to be 422
       end
 
       it "returns error" do
@@ -78,7 +78,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       end
 
       it "responds with 200" do
-        expect(response).to be_success
+        expect(response.status).to be 200
       end
 
       it "updates meal" do
@@ -99,7 +99,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       end
 
       it "responds with 422" do
-        expect(response).not_to be_success
+        expect(response.status).to be 422
       end
 
       it "doesn't updates meal" do
@@ -109,6 +109,26 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       it "returns error" do
         expect(json_response[:calories]).to include("can't be blank")
       end
+    end
+
+  end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @meal = FactoryGirl.create(:soup)
+      delete :destroy, :id => @meal.id
+    end
+
+    it "responds with 204" do
+      expect(response.status).to be 204
+    end
+
+    it "returns nothing" do
+      expect(response.body).to be_empty
+    end
+
+    it "meal is destroyed" do
+      expect(Meal.all.count).to be 0
     end
 
   end
