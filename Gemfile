@@ -11,6 +11,8 @@ gem 'devise'
 
 gem 'sqlite3'
 
+gem 'rack-cors', :require => 'rack/cors'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
@@ -25,7 +27,7 @@ end
 # gem 'bcrypt', '~> 3.1.7'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
