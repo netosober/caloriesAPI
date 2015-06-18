@@ -20,4 +20,6 @@ class User < ActiveRecord::Base
       break token unless User.where(authentication_token: token).first
     end
   end
+
+  has_many :meals
 end

@@ -1,3 +1,4 @@
 class Meal < ActiveRecord::Base
-  validates_presence_of :description, :day, :hour, :calories
+  belongs_to :user
+  validates_presence_of :description, :day, :hour, :calories, :user
 end

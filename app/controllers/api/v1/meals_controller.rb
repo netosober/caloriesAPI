@@ -1,15 +1,23 @@
 class Api::V1::MealsController < ApplicationController
+  include ApiHelper
   before_action :get_meal, only: [:show, :update, :destroy]
 
   def index
-    @meals = Meal.all
+
+    @meals = current_user.meals
   end
 
   def show
+    if @meal.user.id == current_user.id
+      @meal
+    else
+      render json: {'error':'unauthorized'}, status: 401
+    end
   end
 
   def create
     @meal = Meal.new(meal_params)
+    @meal.user = current_user
     if @meal.save
       render json: @meal, status: 201
     else
