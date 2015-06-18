@@ -1,5 +1,6 @@
 class Api::V1::SessionsController < Devise::SessionsController
   prepend_before_filter :require_no_authentication, :only => [:create]
+  skip_before_action :verify_signed_out_user, only: [:destroy]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
   before_filter :validate_auth_token, :except => :create
   include Devise::Controllers::Helpers
@@ -26,7 +27,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   end
 
   def failure
-    return render json: { success: false, errors: [t('api.v1.sessions.invalid_login')] }, :status => :unauthorized
+    return render json: { success: false, errors: [I18n.t('api.v1.sessions.invalid_login')] }, :status => :unauthorized
   end
 
 end

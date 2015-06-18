@@ -28,4 +28,12 @@ FactoryGirl.define do
     role :admin
   end
 
+  factory :user do
+    email "abc@def.com"
+    password  "password"
+    password_confirmation "password"
+    role :normal
+  end
+
+
 end
