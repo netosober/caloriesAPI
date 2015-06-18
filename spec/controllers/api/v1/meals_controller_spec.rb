@@ -4,10 +4,12 @@ RSpec.describe Api::V1::MealsController, type: :controller do
   render_views
   before(:each) do
     request.env["HTTP_ACCEPT"] = 'application/json'
+    @user = FactoryGirl.create(:user)
+    sign_in @user
   end
   describe "GET #show" do
     before(:each) do
-      @meal = FactoryGirl.create(:salad)
+      @meal = FactoryGirl.create(:salad, user: @user)
       get :show, id: @meal.id
     end
 
@@ -22,8 +24,8 @@ RSpec.describe Api::V1::MealsController, type: :controller do
 
   describe "GET #index" do
     before(:each) do
-      FactoryGirl.create_list(:salad, 2)
-      FactoryGirl.create_list(:soup, 3)
+      FactoryGirl.create_list(:salad, 2, user: @user)
+      FactoryGirl.create_list(:soup, 3, user: @user)
       @meals = Meal.all
       get :index
     end
@@ -75,7 +77,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
   describe "PUT #update" do
     context "with valid meal" do
       before(:each) do
-        @meal = FactoryGirl.create(:salad)
+        @meal = FactoryGirl.create(:salad, :user => @user)
         @meal_attr = FactoryGirl.attributes_for(:salad, calories: 2000 )
         put :update, :id => @meal.id, :meal=> @meal_attr
         @meal.reload
@@ -96,7 +98,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
 
     context "with invalid meal" do
       before(:each) do
-        @meal = FactoryGirl.create(:salad)
+        @meal = FactoryGirl.create(:salad, :user => @user)
         @meal_attr = FactoryGirl.attributes_for(:salad, calories: nil )
         put :update, :id => @meal.id, :meal=> @meal_attr
         @meal.reload
@@ -119,7 +121,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
 
   describe "DELETE #destroy" do
     before(:each) do
-      @meal = FactoryGirl.create(:soup)
+      @meal = FactoryGirl.create(:soup, :user => @user)
       delete :destroy, :id => @meal.id
     end
 
