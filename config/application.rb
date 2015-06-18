@@ -29,5 +29,6 @@ module CaloriesAPI
         resource '*', :headers => :any, :methods => [:get, :post, :delete, :put, :options, :head]
       end
     end
+    
   end
 end

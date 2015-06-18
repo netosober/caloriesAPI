@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :meals
-      resources :users, only: [:create]
-      match '/users' => 'users#show', :via => :get
-      match '/users' => 'users#index', :via => :get
-      match '/users' => 'users#update', :via => :put
-      match '/users' => 'users#destroy', :via => :delete
+      devise_for :users, :controllers => { :registrations => "api/v1/registrations", :sessions => "api/v1/sessions" , :passwords => "api/v1/passwords" }
     end
   end
 end

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::MealsController, type: :controller do
+  render_views
+  before(:each) do
+    request.env["HTTP_ACCEPT"] = 'application/json'
+  end
   describe "GET #show" do
     before(:each) do
       @meal = FactoryGirl.create(:salad)
@@ -12,7 +16,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
     end
 
     it "get item" do
-      expect(json_response[:description]).to eq(@meal.description)
+      expect(json_response[:meal][:description]).to eq(@meal.description)
     end
   end
 
@@ -27,7 +31,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       expect(response.status).to be 200
     end
     it "gets all items" do
-      expect(json_response.count).to eq(@meals.count)
+      expect(json_response[:meals].count).to eq(@meals.count)
     end
   end
 

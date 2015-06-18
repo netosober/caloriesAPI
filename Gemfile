@@ -19,7 +19,9 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
+  gem 'pry-rails'
 end
+
 
 
 
