@@ -3,7 +3,7 @@ class Api::V1::MealsController < ApplicationController
   before_action :get_meal, only: [:show, :update, :destroy]
 
   def index
-    @meals = current_user.meals
+    @meals = current_user.meals.sorted
   end
 
   def show
