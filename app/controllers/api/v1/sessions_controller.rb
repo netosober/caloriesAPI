@@ -21,7 +21,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   end
 
   def destroy
-    resource.reset_authentication_token!
+    resource.restore_authentication_token!
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     render :status => 200, :json => {}
   end
