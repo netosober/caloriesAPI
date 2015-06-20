@@ -9,14 +9,14 @@ describe Api::V1::RegistrationsController do
 
     it "should create the user" do
       post :create, {:user => @credentials}, :format => :json
-      response.code.should eq("200")
+      expect(response.code).to eq("200")
     end
 
     it "should return error message if the passwords are not matching" do
       @credentials[:password] = "wrong password"
       post :create, {'user' => @credentials}, :format => :json
-      response.code.should eq("401")
-      response.body['password_confirmation'].should_not be_nil
+      expect(response.code).to eq("401")
+      expect(response.body['password_confirmation']).not_to be_nil
     end
   end
 
@@ -29,20 +29,20 @@ describe Api::V1::RegistrationsController do
 
     it "should change the password" do
       put :update, {'user' => {'email' => 'asd@def.com', 'password' => 'new_password', 'password_confirmation' => 'new_password', :current_password => 'password'}, :auth_token => @user.authentication_token}, :format => :json
-      response.code.should eq("200")
+      expect(response.code).to eq("200")
     end
 
     it "should return error message if the passwords are not matching" do
       @credentials[:password] = "wrong password"
       put :update, {'user' => @credentials, :auth_token => @user.authentication_token}, :format => :json
-      response.code.should eq("401")
-      response.body['password_confirmation'].should_not be_nil
+      expect(response.code).to eq("401")
+      expect(response.body['password_confirmation']).not_to be_nil
     end
 
     it "should return error message if the token is not passed" do
       put :update, {'user' => @credentials}, :format => :json
-      response.code.should eq("401")
-      response.body['errors'].should_not be_nil
+      expect(response.code).to eq("401")
+      expect(response.body['errors']).not_to be_nil
     end
   end
 end
