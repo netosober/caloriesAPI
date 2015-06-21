@@ -14,7 +14,7 @@ class Api::V1::SessionsController < Devise::SessionsController
     if resource.valid_password?(params[:user][:password])
       sign_in(:user, resource)
       resource.ensure_authentication_token!
-      render :json=> {:success => true, :token => resource.authentication_token, :email => resource.email}
+      render :json=> {:success => true, :token => resource.authentication_token, :email => resource.email, :name => resource.name, :calories_limit => resource.calories_limit}
       return
     end
     failure

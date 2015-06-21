@@ -5,6 +5,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     role :normal
+    name "Normal user"
+    calories_limit 500
   end
 
   factory :other, class: User do |u|
@@ -12,6 +14,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     role :normal
+    name "Other user"
+    calories_limit 500
   end
 
   factory :manager, class: User do |u|
@@ -19,6 +23,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     role :manager
+    name "Manager user"
+    calories_limit 500
   end
 
   factory :admin, class: User do |u|
@@ -26,6 +32,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     role :admin
+    name "Admin user"
+    calories_limit 500
   end
 
   factory :user do
@@ -33,7 +41,8 @@ FactoryGirl.define do
     password  "password"
     password_confirmation "password"
     role :normal
+    name "User"
+    calories_limit 500
   end
-
 
 end

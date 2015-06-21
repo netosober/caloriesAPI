@@ -20,17 +20,24 @@ class Api::V1::MealsController < ApplicationController
   end
 
   def update
-    if @meal.update(meal_params)
-      render json: @meal, status: 200
+    if @meal.user == current_user
+      if @meal.update(meal_params)
+        render json: @meal, status: 200
+      else
+        render json: @meal.errors, status: 422
+      end
     else
-      render json: @meal.errors, status: 422
+      render json: { error: 'unauthorized' }, status: 401
     end
   end
 
   def destroy
-    @meal.delete
-
-    head :no_content
+    if @meal.user == current_user
+      @meal.delete
+      head :no_content
+    else
+      render json: { error: 'unauthorized' }, status: 401
+    end
   end
 
   private

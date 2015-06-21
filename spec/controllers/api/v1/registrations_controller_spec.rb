@@ -4,7 +4,7 @@ describe Api::V1::RegistrationsController do
   describe "Sign up" do
     before :each do
       request.env['devise.mapping'] = Devise.mappings[:user]
-      @credentials = {:email => 'asd@def.com', :password => 'password', :password_confirmation => 'password'}
+      @credentials = {:email => 'asd@def.com', :password => 'password', :password_confirmation => 'password', :calories_limit => 500, :name => "User name" }
     end
 
     it "should create the user" do
