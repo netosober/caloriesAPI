@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  validates_presence_of :role, :name, :calories_limit
   before_save :ensure_authentication_token!
 
   def ensure_authentication_token!
@@ -22,4 +21,5 @@ class User < ActiveRecord::Base
   end
 
   has_many :meals
+  has_one :profile
 end

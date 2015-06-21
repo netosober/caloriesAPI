@@ -7,8 +7,12 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    resource.role = 'normal'
+
     if resource.save
+      profile = Profile.new(profile_params)
+      profile.role = 'normal'
+      profile.user = resource
+      profile.save
       if resource.active_for_authentication?
         return render :json => {:success => true}
       else
@@ -44,6 +48,11 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    params.require(:user).permit( :email, :password, :password_confirmation, :calories_limit, :name)
+    params.require(:user).permit( :email, :password, :password_confirmation)
   end
+
+  def profile_params
+    params.require(:user).permit( :calories_limit, :name)
+  end
+
 end
