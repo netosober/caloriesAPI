@@ -22,4 +22,8 @@ class ApplicationController < ActionController::API
       end
     end
   end
+
+  def render_unauthorized(error)
+    render json: { error: error }, status: 401
+  end
 end

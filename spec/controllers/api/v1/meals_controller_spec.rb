@@ -54,7 +54,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       end
 
       it "returns new meal" do
-        expect(json_response[:description]).to eq(@meal_attr[:description])
+        expect(json_response[:meal][:description]).to eq(@meal_attr[:description])
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe Api::V1::MealsController, type: :controller do
       end
 
       it "returns updated meal" do
-        expect(json_response[:calories]).to eq(@meal_attr[:calories])
+        expect(json_response[:meal][:calories]).to eq(@meal_attr[:calories])
       end
     end
 

@@ -13,7 +13,7 @@ class Api::V1::MealsController < ApplicationController
     @meal = Meal.new(meal_params)
     @meal.user = current_user
     if @meal.save
-      render json: @meal, status: 201
+      render :show, status: 201
     else
       render json: @meal.errors, status: 422
     end
@@ -22,12 +22,12 @@ class Api::V1::MealsController < ApplicationController
   def update
     if @meal.user == current_user
       if @meal.update(meal_params)
-        render json: @meal, status: 200
+        render :show
       else
         render json: @meal.errors, status: 422
       end
     else
-      render json: { error: 'unauthorized' }, status: 401
+      render_unauthorized "can't edit meal that belongs to users"
     end
   end
 
@@ -36,7 +36,7 @@ class Api::V1::MealsController < ApplicationController
       @meal.delete
       head :no_content
     else
-      render json: { error: 'unauthorized' }, status: 401
+      render_unauthorized "can't delete meal that belongs to users"
     end
   end
 
