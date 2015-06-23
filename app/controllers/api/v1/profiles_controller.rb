@@ -2,7 +2,7 @@ class Api::V1::ProfilesController < ApplicationController
   before_action :get_profile, only: [:show, :update, :destroy]
 
   def index
-    if current_user.profile.role == "normal"
+    if current_user.profile.role == "normal" || params[:current] == true
       @profiles = [ current_user.profile ]
     else
       @profiles = Profile.all

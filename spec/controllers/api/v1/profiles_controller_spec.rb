@@ -14,28 +14,34 @@ RSpec.describe Api::V1::ProfilesController, type: :controller do
     context "with manager signed in" do
       before(:each) do
         sign_in @manager
-        get :index
-      end
-      it "responds with 200" do
-        expect(response.status).to be 200
       end
       it "gets all items" do
+        get :index
+        expect(response.status).to be 200
         expect(json_response[:profiles].count).to eq(Profile.count)
+      end
+      it "gets current_user" do
+        get :index, current: true
+        expect(response.status).to be 200
+        expect(json_response[:profiles].count).to eq(1)
+        expect(json_response[:profiles][0][:name]).to eq(@manager_profile.name)
       end
     end
     context "with normal user signed in" do
       before(:each) do
         sign_in @user
-        get :index
-      end
-      it "responds with 200" do
-        expect(response.status).to be 200
       end
       it "gets only one profile" do
+        get :index
+        expect(response.status).to be 200
         expect(json_response[:profiles].count).to eq(1)
-      end
-      it "returns current user profile" do
         expect(json_response[:profiles][0][:name]).to eq(@normal_profile.name)
+      end
+      it "gets current_user" do
+        get :index, current: true
+        expect(response.status).to be 200
+        expect(json_response[:profiles].count).to eq(1)
+        expect(json_response[:profiles][0][:name]).to eq(@manager_profile.name)
       end
     end
   end
